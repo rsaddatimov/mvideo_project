@@ -23,7 +23,12 @@ else:
     logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 
 logging.info('Preparing...')
-stream = cv2.VideoCapture(args.input)
+
+input_file = open(args.input, 'r')
+file_names = [line.strip() for line in input_file]
+input_file.close()
+
+stream = cv2.VideoCapture(file_names[0])
 
 cv2.namedWindow('Frame', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Frame', 850, 500)
