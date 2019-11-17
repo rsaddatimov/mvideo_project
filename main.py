@@ -1,6 +1,5 @@
 import logging
 import argparse
-import sys
 
 #command line arguments parsing
 
@@ -16,6 +15,7 @@ else:
     raise Exception('No input file')
 
 if args.log:
-    logging.basicConfig(filename=args.log, level=logging.INFO)
+    logging.basicConfig(filename=args.log, level=logging.INFO, format='[%(levelname)s] %(message)s')
 else:
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
+
