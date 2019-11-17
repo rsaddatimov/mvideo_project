@@ -1,6 +1,6 @@
 Пример запуска:
 
-python main.py -i input.txt -l logger.txt
+$ python main.py -i input.txt -l logger.txt $
 
 Параметры запуска:
 
