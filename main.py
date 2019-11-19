@@ -2,8 +2,8 @@ import logging
 import argparse
 import numpy as np
 import cv2
-from imutils.object_detection import non_max_suppression
 import imutils
+from detectors.hog_detector import HOGDetector
 
 #command line arguments parsing
 
@@ -33,8 +33,7 @@ stream = cv2.VideoCapture(file_names[0])
 cv2.namedWindow('Frame', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Frame', 850, 500)
 
-hog = cv2.HOGDescriptor()
-hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+hog = HOGDetector()
 frame_id = 1
 
 logging.info('Starting video stream...')
@@ -43,15 +42,12 @@ while True:
 
     frame = imutils.resize(frame, 800, 600)
 
-    rects, weights = hog.detectMultiScale(frame, winStride=(4, 4), padding=(8, 8), scale=1.05)
-
-    rects = np.array([[x, y, x + w, y + h] for x, y, w, h in rects])
-    rects = non_max_suppression(rects, probs=None, overlapThresh=0.65)
+    rects = hog.detect(frame)
 
     logging.info('%d-th frame: Detected %d objects...' % (frame_id, len(rects)))
 
-    for x, y, xx, yy in rects:
-        cv2.rectangle(frame, (x, y), (xx, yy), (0, 0, 255), 2)
+    for x, y, h, w in rects:
+        cv2.rectangle(frame, (x, y), (x + h, y + w), (0, 0, 255), 2)
 
     cv2.imshow('Frame', frame)
 
