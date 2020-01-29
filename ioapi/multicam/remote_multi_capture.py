@@ -1,4 +1,4 @@
-from ioapi.multicam.base import Frame, BaseMultiCapture
+from ioapi.multicam.base_multi_capture import Frame, BaseMultiCapture
 from datetime import *
 import numpy as np
 import websocket

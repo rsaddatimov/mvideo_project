@@ -1,2 +1,3 @@
-from .base import Frame, BaseMultiCapture
-from .remote import RemoteMultiCapture
+from .frame import  Frame
+from .base_multi_capture import BaseMultiCapture
+from .remote_multi_capture import RemoteMultiCapture
