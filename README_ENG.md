@@ -12,3 +12,12 @@ Whenever the queue is recognized the system notifies the manager of the store.
 ## Project relevance
 The implemented system will allow to quickly prevent queues by timely opening of additional cash desks, thus reducing the time a buyer spent in the queue.
 This will help to create a positive impression of the store and increase the likelihood of clients returning to the store.
+
+## Project goals
+Implement the prototype of queue recognition system and people counter using video analytics technologies.
+**Planned results:**
+1. Working module for store clients recognition
+2. Working module for people clustering to identify queue
+3. Working module for people counting
+4. Determining the achievable recognition quality level in modules 1-3 on corporate data
+5. Working module to notify the store administrator about the queue by email or sms
