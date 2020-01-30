@@ -21,3 +21,10 @@ Implement the prototype of queue recognition system and people counter using vid
 3. Working module for people counting
 4. Determining the achievable recognition quality level in modules 1-3 on corporate data
 5. Working module to notify the store administrator about the queue by email or sms
+
+## Software that we used
+* Ubuntu 16.04.6 LTS
+* Nvidia CUDA 10.2
+* Python 3.6
+* OpenCV 4.2.0
+* ...
