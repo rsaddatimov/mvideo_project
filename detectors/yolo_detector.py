@@ -78,13 +78,13 @@ class YoloDetector:
                 resultingRectangles.append([cornerX, cornerY, int(width), int(height)])
                 resultingConfidences.append(confidence)
 
-                # Не забываем применить non-maximum suppression чтобы
-                # избавиться от неоправданных пересечений прямоугоьлников
-                resultingRectangles = cv2.dnn.NMSBoxes(
-                    resultingRectangles,
-                    resultingConfidences,
-                    self.acceptableConfidence,
-                    self.threshold
-                )
+        # Не забываем применить non-maximum suppression чтобы
+        # избавиться от неоправданных пересечений прямоугоьлников
+        resultingRectangles = cv2.dnn.NMSBoxes(
+            resultingRectangles,
+            resultingConfidences,
+            self.acceptableConfidence,
+            self.threshold
+        )
 
-                return resultingRectangles, resultingConfidences
+        return resultingRectangles, resultingConfidences
