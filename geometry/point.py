@@ -1,5 +1,6 @@
 from math import sqrt
 
+
 """
 Класс соответствующий точке в пространстве
 """
@@ -19,7 +20,7 @@ class Point:
     @in other - точка Point
     @return double - расстояние от данной точки до другой
     """
-    def distance(self, other):
+    def distance(self, other: Point):
         return sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
 
     """
