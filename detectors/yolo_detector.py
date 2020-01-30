@@ -16,7 +16,7 @@ class YoloDetector:
     @in confidence - минимально допустимая вероятность обнаружения
     @in threshold
     """
-    def __init__(self, modelPath, confidence, threshold):
+    def __init__(self, modelPath, confidence=0.5, threshold=0.3, gpuEnabled=False):
         if not exists(pj(modelPath, 'yolo3.cfg')) or not exists(pj(modelPath, 'yolo3.weights')):
             raise Exception('Model was not found at %s' % modelPath)
 
@@ -25,13 +25,14 @@ class YoloDetector:
             pj(modelPath, 'yolo3.weights')
         )
 
-        self.layersNames = self.net.getLayerNames()
-        self.layersNames = [self.layersNames[id[0] - 1] for id in self.net.getUnconnectedOutLayers()]
+        if gpuEnabled:
+            self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+            self.net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+
+        self.layersNames = self.net.getUnconnectedOutLayersNames()
 
         self.acceptableConfidence = confidence
         self.threshold = threshold
-
-        self.backScaleArray = None
 
     """
     Метод, который по кадру дает детекты на ней в виде массива прямоугольников
@@ -39,9 +40,7 @@ class YoloDetector:
     @return - лист из прямоугольников
     """
     def detect(self, inputFrame):
-        if self.backScaleArray:
-            (H, W) = inputFrame.shape[:2]
-            self.backScaleArray = np.array([W, H, W, H])
+        (H, W) = inputFrame.shape[:2]
 
         # Скармливаем нейронке кадр
         blob = cv2.dnn.blobFromImage(
@@ -70,7 +69,7 @@ class YoloDetector:
                     continue
 
                 # Строим прямоугольник и добавляем его к обнаружениям
-                rect = detection[0:4] * self.backScaleArray
+                rect = detection[0:4] * np.array([W, H, W, H])
                 (centerX, centerY, width, height) = rect.astype("int")
                 cornerX = int(centerX - (width / 2))
                 cornerY = int(centerY - (height / 2))
