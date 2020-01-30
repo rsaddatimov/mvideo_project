@@ -19,7 +19,11 @@ class YoloDetector:
     def __init__(self, modelPath, confidence, threshold):
         if not exists(pj(modelPath, 'yolo3.cfg')) or not exists(pj(modelPath, 'yolo3.weights')):
             raise Exception('Model was not found at %s' % modelPath)
-        self.net = cv2.dnn.readNetFromDarknet(pj(modelPath, 'yolo3.cfg'), pj(modelPath, 'yolo3.weights'))
+
+        self.net = cv2.dnn.readNetFromDarknet(
+            pj(modelPath, 'yolo3.cfg'),
+            pj(modelPath, 'yolo3.weights')
+        )
 
         self.layersNames = self.net.getLayerNames()
         self.layersNames = [self.layersNames[id[0] - 1] for id in self.net.getUnconnectedOutLayers()]
@@ -40,7 +44,13 @@ class YoloDetector:
             self.backScaleArray = np.array([W, H, W, H])
 
         # Скармливаем нейронке кадр
-        blob = cv2.dnn.blobFromImage(inputFrame, 1 / 255.0, (416, 416), swapRB=True, crop=False)
+        blob = cv2.dnn.blobFromImage(
+            inputFrame,
+            1 / 255.0,
+            (416, 416),
+            swapRB=True,
+            crop=False
+        )
         self.net.setInput(blob)
         outputLayers = self.net.forward(self.layersNames)
 

@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 import cv2
 import imutils
-from detectors.ssd_detector import SSDDetector
+from detectors import SSDDetector
 
 #command line arguments parsing
 

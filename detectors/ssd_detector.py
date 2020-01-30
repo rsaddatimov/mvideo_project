@@ -1,13 +1,21 @@
-import numpy as np
 import cv2
-import logging
+import numpy as np
+from os.path import exists
 
+"""
+Класс для детектирования с помощью ssd модели
+Метод ещё не проверен на точность
+"""
 class SSDDetector:
-    def __init__(self, protoPath=None, modelPath=None, confidence=0.0):
-        if modelPath != None and protoPath != None:
-            logging.info('Loading DNN model...')
-            self.net = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
-            logging.info('DNN model was loaded succesfully...')
+
+
+    def __init__(self, protoPath, modelPath, confidence=0.0):
+        if modelPath is None or protoPath is None:
+            raise Exception('Path to the model cant be None!')
+        if not exists(protoPath) or not exists(modelPath):
+            raise Exception('Model was not found at %s ans %s' % (modelPath, protoPath))
+
+        self.net = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
         self.confidence = confidence
 
     def reload_model(self, protoPath, modelPath):
