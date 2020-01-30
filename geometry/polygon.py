@@ -1,14 +1,26 @@
-
 from geometry import Point
-from math import sqrt
 from typing import List
 
+
+"""
+Класс для работы с многоугольникам в двумерном пространстве
+"""
 class Polygon:
 
+    """
+    Конструктор класса
+    @in vertexList - список точек
+    """
     def __init__(self, vertexList: List[Point]):
         self.vertices = vertexList
         self.vertexCount = len(self.vertices)
 
+    """
+    Метод проверяющий по данной точке, лежит ли она внутри данного
+    многоугольника. Работает ассимптотически за O(vertexCount)
+    @in pt - проверяемая точка
+    @return bool - True если лежит, иначе False
+    """
     def pointInside(self, pt: Point):
         cnt, key = 0, False
 
@@ -30,5 +42,12 @@ class Polygon:
 
         return ((cnt % 2 == 1) or key)
 
+    """
+    Метод проверяющий по данной точке, лежит ли она внутри данного
+    многоугольника. Работает ассимптотически за O(log(vertexCount))
+    @in pt - проверяемая точка
+    @return bool - True если лежит, иначе False
+    """
     def pointInsideFast(self, pt: Point):
-        return False
+        # TODO @rsaddatimov
+        raise NotImplementedError
