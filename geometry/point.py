@@ -20,7 +20,7 @@ class Point:
     @in other - точка Point
     @return double - расстояние от данной точки до другой
     """
-    def distance(self, other: Point):
+    def distance(self, other):
         return sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
 
     """
