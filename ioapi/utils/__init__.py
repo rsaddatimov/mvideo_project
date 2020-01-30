@@ -1,1 +1,1 @@
-from .props import PropertyHacker
+from .property_hacker import PropertyHacker
