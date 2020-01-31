@@ -1,62 +1,20 @@
-import logging
 import argparse
-import numpy as np
 import cv2
-import imutils
-from detectors.hog_detector import HOGDetector
+import numpy as np
 
 #command line arguments parsing
 
-arg_parser = argparse.ArgumentParser()
+argParser = argparse.ArgumentParser()
 
-arg_parser.add_argument('-i', '--input', help='Path to CCTV cam ip file')
-arg_parser.add_argument('-l', '--log', help='Path to log file')
+argParser.add_argument('--channel', required=True, type=int, help='The CCTV channel to listen')
+argParser.add_argument('--debug-mode', action='store_true', help='Enables debug mode in which we draw and write frames')
+argParser.add_argument('--fps-multiplier', type=int, default=1, help='The FPS multiplier')
+argParser.add_argument('--gpu-enabled', action='store_true', help='Flag to enable CUDA GPU Backend')
+argParser.add_argument('--min-confidence', type=float, default=0.5, help='The minimal acceptable confidence of detection')
+argParser.add_argument('--model-path', required=True, type=str, help='Path to the model')
+argParser.add_argument('--nms-threshold', type=float, default=0.3, help='The threshold of non-maximum suppression')
+argParser.add_argument('--polygon-path', required=True, type=str, help='Path to the polygon')
+argParser.add_argument('--start-time', required=True, type=str, help='Timestamp from which we listen channel')
 
-args = arg_parser.parse_args()
+argv = argParser.parse_args()
 
-if not args.input:
-    raise Exception('No input file')
-
-if args.log:
-    logging.basicConfig(filename=args.log, level=logging.INFO, format='[%(levelname)s] %(message)s')
-else:
-    logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
-
-logging.info('Preparing...')
-
-input_file = open(args.input, 'r')
-file_names = [line.strip() for line in input_file]
-input_file.close()
-
-stream = cv2.VideoCapture(file_names[0])
-
-cv2.namedWindow('Frame', cv2.WINDOW_NORMAL)
-cv2.resizeWindow('Frame', 850, 500)
-
-hog = HOGDetector()
-frame_id = 1
-
-logging.info('Starting video stream...')
-while True:
-    ret, frame = stream.read()
-
-    frame = imutils.resize(frame, 800, 600)
-
-    rects = hog.detect(frame)
-
-    logging.info('%d-th frame: Detected %d objects...' % (frame_id, len(rects)))
-
-    for x, y, h, w in rects:
-        cv2.rectangle(frame, (x, y), (x + h, y + w), (0, 0, 255), 2)
-
-    cv2.imshow('Frame', frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-    frame_id += 1
-
-logging.info('Ending stream...')
-
-stream.release()
-cv2.destroyAllWindows()
