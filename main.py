@@ -19,18 +19,18 @@ argParser.add_argument('--min-confidence', type=float, default=0.5, help='The mi
 argParser.add_argument('--model-path', required=True, type=str, help='Path to the model')
 argParser.add_argument('--nms-threshold', type=float, default=0.3, help='The threshold of non-maximum suppression')
 argParser.add_argument('--polygon-path', required=True, type=str, help='Path to the polygon')
-argParser.add_argument('--start-time', required=True, type=str, help='Timestamp from which we listen channel')
+argParser.add_argument('--start-time', required=True, type=str, help='Timestamp from which we listen channel, which corresponds to the format d.m.Y H:M:S')
 
 argv = argParser.parse_args()
 
-CCTV_TOKEN = getenv('TOKEN', 'secret-key')
-CCTV_IP = getenv('IP', 'localhost')
+CCTV_TOKEN = getenv('CCTV_TOKEN', 'secret-key')
+CCTV_IP = getenv('CCTV_IP', 'localhost')
 
 # Инициализируем видеопоток
 remoteCapture = RemoteMultiCapture('ws://' + CCTV_IP + '/api?token=' + quote_plus(CCTV_TOKEN))
 remoteCapture.channels = [argv.channel]
 remoteCapture.fpsx = argv.fps_multiplier
-remoteCapture.pos = datetime.strptime(START, '%d.%m.%Y %H:%M:%S')
+remoteCapture.pos = datetime.strptime(argv.start_time, '%d.%m.%Y %H:%M:%S')
 
 # Инициализируем детектор
 detector = YoloDetector(
