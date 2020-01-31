@@ -65,6 +65,12 @@ class Point:
     def scalarProduct(self, other):
         return self.x * other.x + self.y * other.y
 
+    """
+    Расстояние от данной точки до отрезка
+    @in P0 - первая точка отрезка
+    @in P1 - вторая точка отрезка
+    @return float - расстояние
+    """
     def distanceSegment(self, P0, P1):
         v = P1 - P0
         w = self - P0

@@ -97,7 +97,7 @@ class Polygon:
     @return float - расстояние
     """
     def distance(self, pt: Point) -> float:
-        # TODO @rsaddatimov
         if self.pointInside(pt):
             return 0
-        raise NotImplementedError
+        return min(pt.distanceSegment(self.vertices[i], self.vertices[(i + 1) % self.vertexCount]) for i in range(self.vertexCount))
+
