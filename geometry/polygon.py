@@ -90,3 +90,14 @@ class Polygon:
     def pointInsideFast(self, pt: Point):
         # TODO @rsaddatimov
         raise NotImplementedError
+
+    """
+    Метод вычисляющий расстояние от данной точки до полигона
+    @in pt - точка
+    @return float - расстояние
+    """
+    def distance(self, pt: Point) -> float:
+        # TODO @rsaddatimov
+        if self.pointInside(pt):
+            return 0
+        raise NotImplementedError

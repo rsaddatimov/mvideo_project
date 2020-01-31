@@ -4,6 +4,7 @@ import numpy as np
 
 from datetime import *
 from detectors import YoloDetector
+from geometry import Polygon
 from ioapi.multicam import RemoteMultiCapture
 from os import getenv
 from urllib.parse import quote_plus
@@ -48,3 +49,27 @@ if argv.debug_mode:
         10,
         (1280, 720)
     )
+
+# Инициализируем полигон
+polygon = Polygon()
+polygon.load(argv.polygon_path)
+
+# Начинаем процесс
+while True:
+    grabSuccess, frameData = remoteCapture.read()
+
+    if not grabSuccess:
+        break
+
+    frameData = frameData[0]
+    frame = frameData.image
+
+
+    def drawDebug(frame, detections):
+        # TODO @rsaddatimov
+        raise NotImplementedError
+
+    detections, confidences = detector.detect(frame)
+
+    if argv.debug:
+        outputWriter.write(drawDebug(detections))
