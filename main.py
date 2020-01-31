@@ -72,4 +72,4 @@ while True:
     detections, confidences = detector.detect(frame)
 
     if argv.debug:
-        outputWriter.write(drawDebug(detections))
+        outputWriter.write(drawDebug(frame, detections))
