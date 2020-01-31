@@ -73,3 +73,11 @@ while True:
 
     if argv.debug:
         outputWriter.write(drawDebug(frame, detections))
+
+
+
+
+if argv.debug_mode:
+    outputWriter.release()
+
+
