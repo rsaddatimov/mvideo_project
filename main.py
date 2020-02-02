@@ -5,6 +5,7 @@ import numpy as np
 from datetime import *
 from detectors import YoloDetector
 from geometry import Polygon
+from graphics import drawDebug
 from ioapi.multicam import RemoteMultiCapture
 from os import getenv
 from urllib.parse import quote_plus
@@ -64,15 +65,14 @@ while True:
     frameData = frameData[0]
     frame = frameData.image
 
-
-    def drawDebug(frame, detections):
-        # TODO @rsaddatimov
-        raise NotImplementedError
-
     detections, confidences = detector.detect(frame)
 
     if argv.debug:
-        outputWriter.write(drawDebug(frame, detections))
+        outputWriter.write(drawDebug(
+            frame,
+            detections,
+            polygon
+        ))
 
 
 
