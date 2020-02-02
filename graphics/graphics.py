@@ -1,7 +1,10 @@
 import cv2
 
-from geometry import Polygon
+from geometry import Point, Polygon
 
+SHADE_DISTANCE = 150
+
+#TODO @rsaddatimov
 def drawDebug(
     frame,
     detections,
@@ -23,6 +26,17 @@ def drawDebug(
 
     # Рисуем обнаружения
     for x, y, w, h in detections:
+        rectCentre = Point(x + w / 2, y + h / 2)
+        rectColor = (0, 255, 0) #green
+        distanceToPoly = polygon.distance(rectCentre)
+
+        if distanceToPoly < SHADE_DISTANCE:
+            rectColor = Point.lerp(
+                rectColor,
+                (255, 0, 0),
+                1 - distanceToPoly / SHADE_DISTANCE
+            )
+
         cv2.rectangle(
             frame,
             (x, y),
@@ -30,4 +44,15 @@ def drawDebug(
             (0, 255, 0),
             2
         )
+
+        cv2.putText(
+            frame,
+            distanceToPoly,
+            (x, y - 5),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.5,
+            rectColor,
+            2
+        )
+
 

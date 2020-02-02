@@ -1,3 +1,5 @@
+import numpy as np
+
 from math import sqrt
 
 
@@ -56,6 +58,13 @@ class Point:
     @staticmethod
     def distance(first, second):
         return sqrt((first.x - second.x) ** 2 + (first.y - second.y) ** 2)
+
+    """
+    Линейная интерполяция
+    """
+    @staticmethod
+    def lerp(A, B, t: float):
+        return tuple(np.add(A, t * np.subtract(B, A)))
 
     """
     Скалярное произведение векторов
