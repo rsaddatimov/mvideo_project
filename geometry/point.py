@@ -42,14 +42,6 @@ class Point:
         return Point(coeff * self.x, coeff * self.y)
 
     """
-    Расстояние от данной точки до другой
-    @in other - точка Point
-    @return double - расстояние от данной точки до другой
-    """
-    def distance(self, other):
-        return sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
-
-    """
     Расстояние между двумя точками. Статический метод
     @in first - точка Point
     @in secon - точка Point
@@ -61,6 +53,10 @@ class Point:
 
     """
     Линейная интерполяция
+    @in A - начальное значение
+    @in B - конечное значение
+    @in t float - коэффициент линейной интерполяции
+    @return tuple
     """
     @staticmethod
     def lerp(A, B, t: float):
@@ -85,12 +81,12 @@ class Point:
         w = self - P0
         c1 = w.scalarProduct(v)
         if c1 <= 0:
-            return self.distance(P0)
+            return self.distance(self, P0)
         c2 = v.scalarProduct(v)
         if c2 <= c1:
-            return self.distance(P1)
+            return self.distance(self, P1)
         b = c1 / c2
-        pPerp = P0 + b * w
-        return self.distance(pPerp)
+        pPerp = P0 + w * b
+        return self.distance(self, pPerp)
 
 

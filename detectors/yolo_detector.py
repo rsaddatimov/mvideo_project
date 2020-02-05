@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+
 from os.path import join as pj
 from os.path import exists
 
@@ -12,17 +13,17 @@ class YoloDetector:
 
     """
     Кокструктор класса. Инициализирует всё необходимое
-    @in mdelPath - путь к модели
+    @in modelPath - путь к модели
     @in confidence - минимально допустимая вероятность обнаружения
     @in threshold
     """
     def __init__(self, modelPath, confidence=0.5, threshold=0.3, gpuEnabled=False):
-        if not exists(pj(modelPath, 'yolo3.cfg')) or not exists(pj(modelPath, 'yolo3.weights')):
+        if not exists(pj(modelPath, 'yolov3.cfg')) or not exists(pj(modelPath, 'yolov3.weights')):
             raise Exception('Model was not found at %s' % modelPath)
 
         self.net = cv2.dnn.readNetFromDarknet(
-            pj(modelPath, 'yolo3.cfg'),
-            pj(modelPath, 'yolo3.weights')
+            pj(modelPath, 'yolov3.cfg'),
+            pj(modelPath, 'yolov3.weights')
         )
 
         if gpuEnabled:
@@ -74,8 +75,11 @@ class YoloDetector:
                 cornerX = int(centerX - (width / 2))
                 cornerY = int(centerY - (height / 2))
 
-                resultingRectangles.append([cornerX, cornerY, int(width), int(height)])
-                resultingConfidences.append(confidence)
+                resultingRectangles.append([int(cornerX), int(cornerY), int(width), int(height)])
+                resultingConfidences.append(float(confidence))
+
+        if len(resultingRectangles) == 0:
+            return [], []
 
         # Не забываем применить non-maximum suppression чтобы
         # избавиться от неоправданных пересечений прямоугоьлников
@@ -86,4 +90,4 @@ class YoloDetector:
             self.threshold
         )
 
-        return resultingRectangles, resultingConfidences
+        return [resultingRectangles[id[0]] for id in acceptableIndices], resultingConfidences

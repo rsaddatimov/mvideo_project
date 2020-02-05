@@ -47,7 +47,7 @@ if argv.debug_mode:
     outputWriter = cv2.VideoWriter(
         'output.avi',
         cv2.VideoWriter_fourcc('M','J','P','G'),
-        10,
+        30,
         (1280, 720)
     )
 
@@ -67,7 +67,7 @@ while True:
 
     detections, confidences = detector.detect(frame)
 
-    if argv.debug:
+    if argv.debug_mode:
         outputWriter.write(drawDebug(
             frame,
             detections,

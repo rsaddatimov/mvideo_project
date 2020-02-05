@@ -24,6 +24,9 @@ def drawDebug(
             1
         )
 
+    if len(detections) == 0:
+        return frame
+
     # Рисуем обнаружения
     for x, y, w, h in detections:
         rectCentre = Point(x + w / 2, y + h / 2)
@@ -47,7 +50,7 @@ def drawDebug(
 
         cv2.putText(
             frame,
-            distanceToPoly,
+            str(distanceToPoly),
             (x, y - 5),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.5,
@@ -55,4 +58,5 @@ def drawDebug(
             2
         )
 
+    return frame
 

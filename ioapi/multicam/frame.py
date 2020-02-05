@@ -35,11 +35,7 @@ class Frame:
         self._image.setflags(write=False)
 
     def __repr__(self):
-        return (
-            f'Frame(channel={self.channel}, '
-            f'time={self.time}, '
-            f'size={self.size})'
-        )
+        return 'Frame(channel={}, time={}, size={})'.format(self.channel, self.time, self.size)
 
     # Публичные атрибуты (readonly)
     channel = property(lambda self: self._channel)
