@@ -13,7 +13,6 @@ class Polygon:
 
     """
     Конструктор класса
-    @in vertexList - список точек
     """
     def __init__(self):
         self.vertices = None
@@ -61,6 +60,7 @@ class Polygon:
     def pointInside(self, pt: Point):
         if self.vertexCount is None:
             raise Exception("Polygon is not initialized")
+
         cnt, key = 0, False
 
         for i in range(1, self.vertexCount + 1):
@@ -79,7 +79,7 @@ class Polygon:
                 key = True
                 break
 
-        return ((cnt % 2 == 1) or key)
+        return (cnt % 2 == 1) or key
 
     """
     Метод проверяющий по данной точке, лежит ли она внутри данного
@@ -99,5 +99,11 @@ class Polygon:
     def distance(self, pt: Point) -> float:
         if self.pointInside(pt):
             return 0
-        return min(pt.distanceSegment(self.vertices[i], self.vertices[(i + 1) % self.vertexCount]) for i in range(self.vertexCount))
+        return min(
+            pt.distanceSegment(
+                self.vertices[i],
+                self.vertices[(i + 1) % self.vertexCount]
+            )
+            for i in range(self.vertexCount)
+        )
 

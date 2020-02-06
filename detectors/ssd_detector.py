@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
+
 from os.path import exists
+
 
 """
 Класс для детектирования с помощью ssd модели
@@ -18,6 +20,7 @@ class SSDDetector:
     def __init__(self, protoPath, modelPath, confidence):
         if modelPath is None or protoPath is None:
             raise Exception('Path to the model cant be None!')
+
         if not exists(protoPath) or not exists(modelPath):
             raise Exception('Model was not found at %s ans %s' % (modelPath, protoPath))
 
@@ -34,6 +37,7 @@ class SSDDetector:
     def reload_model(self, protoPath, modelPath):
         if modelPath is None or protoPath is None:
             raise Exception('Path to the model cant be None!')
+
         if not exists(protoPath) or not exists(modelPath):
             raise Exception('Model was not found at %s ans %s' % (modelPath, protoPath))
 
@@ -60,6 +64,7 @@ class SSDDetector:
         detections = self.net.forward()
 
         rects = []
+        
         for i in range(detections.shape[2]):
             probability = detections[0, 0, i, 2]
             detectedId = int(detections[0, 0, i, 1])

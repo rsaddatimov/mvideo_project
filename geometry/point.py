@@ -60,6 +60,11 @@ class Point:
     """
     @staticmethod
     def lerp(A, B, t: float):
+        if t > 1:
+            t = 1
+        elif t < 0:
+            t = 0
+
         return tuple(np.add(A, t * np.subtract(B, A)))
 
     """
@@ -76,7 +81,7 @@ class Point:
     @in P1 - вторая точка отрезка
     @return float - расстояние
     """
-    def distanceSegment(self, P0, P1):
+    def distanceSegment(self, P0, P1) -> float:
         v = P1 - P0
         w = self - P0
         c1 = w.scalarProduct(v)

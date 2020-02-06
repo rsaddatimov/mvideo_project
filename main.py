@@ -42,11 +42,11 @@ detector = YoloDetector(
     argv.gpu_enabled
 )
 
-ouputWriter = None
+outputWriter = None
 if argv.debug_mode:
     outputWriter = cv2.VideoWriter(
         'output.avi',
-        cv2.VideoWriter_fourcc('M','J','P','G'),
+        cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'),
         30,
         (1280, 720)
     )
@@ -75,9 +75,5 @@ while True:
         ))
 
 
-
-
 if argv.debug_mode:
     outputWriter.release()
-
-
