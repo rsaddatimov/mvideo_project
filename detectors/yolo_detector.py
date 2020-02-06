@@ -61,6 +61,10 @@ class YoloDetector:
         for layer in outputLayers:
             for detection in layer:
                 probabilities = detection[5:]
+
+                if probabilities[0] <= self.acceptableConfidence:
+                    continue
+
                 classId = np.argmax(probabilities)
                 confidence = probabilities[classId]
 
@@ -75,7 +79,7 @@ class YoloDetector:
                 cornerX = int(centerX - (width / 2))
                 cornerY = int(centerY - (height / 2))
 
-                resultingRectangles.append([int(cornerX), int(cornerY), int(width), int(height)])
+                resultingRectangles.append([cornerX, cornerY, width, height])
                 resultingConfidences.append(float(confidence))
 
         if len(resultingRectangles) == 0:
@@ -83,7 +87,7 @@ class YoloDetector:
 
         # Не забываем применить non-maximum suppression чтобы
         # избавиться от неоправданных пересечений прямоугоьлников
-        resultingRectangles = cv2.dnn.NMSBoxes(
+        acceptableIndices = cv2.dnn.NMSBoxes(
             resultingRectangles,
             resultingConfidences,
             self.acceptableConfidence,
