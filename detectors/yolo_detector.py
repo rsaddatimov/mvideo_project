@@ -94,4 +94,4 @@ class YoloDetector:
             self.threshold
         )
 
-        return [resultingRectangles[id[0]] for id in acceptableIndices], resultingConfidences
+        return [resultingRectangles[id[0]] for id in acceptableIndices], [resultingConfidences[id[0]] for id in acceptableIndices]
