@@ -25,7 +25,8 @@ class YoloDetector:
             pj(modelPath, 'yolov3.cfg'),
             pj(modelPath, 'yolov3.weights')
         )
-
+        
+        # Для использования видеокарты необходима версия OpenCV >= 4.2.0
         if gpuEnabled:
             self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
             self.net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
