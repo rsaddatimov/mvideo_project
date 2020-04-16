@@ -23,6 +23,7 @@ number_of_photos = 1000
 counter = 0
 
 if __name__ == '__main__':
+    # запускаем стрим записи нужного временного промежутка
     pos = datetime.strptime(START, '%d.%m.%Y %H:%M:%S')
     url = 'ws://' + IP + '/api?token=' + quote_plus(TOKEN)
     fps = FPSMeter(autodump=1)
@@ -49,11 +50,17 @@ if __name__ == '__main__':
             cv2.imwrite(name + ".jpg", frame.image)
             f = open(name + ".txt", 'w')
             f.close()
+            
+            '''
+            увеличваем счетчик; если сохранили нужное число кадров, 
+            выходим из программы
+            '''
             counter += 1
             if (counter == number_of_photos):
                 break
         if (counter == number_of_photos):
             break
+        # процесс можно остановить раньше по нажатию клавиши 'q'
         if cv2.waitKey(1) & 0xFF == ord('q'): break
 
     del fps  # Удаление объекта завершает поток авто-вывода
