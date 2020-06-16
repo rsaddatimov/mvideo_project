@@ -1,0 +1,6 @@
+backports-datetime-fromisoformat
+frozendict
+imutils
+numpy
+opencv-python
+websocket_client
